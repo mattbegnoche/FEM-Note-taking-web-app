@@ -1,0 +1,13 @@
+import { Plus } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+export function ButtonRounded() {
+  return (
+    <div className="flex flex-col gap-8">
+      <Button variant="outline" size="icon" className="rounded-full">
+        <Plus />
+      </Button>
+    </div>
+  );
+}
