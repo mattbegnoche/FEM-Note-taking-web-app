@@ -1,11 +1,5 @@
-function Home() {
-  return (
-    <div className="">
-      <p className="font-sans">Sans</p>
-      <p className="font-serif">Serif</p>
-      <p className="font-mono">Mono</p>
-    </div>
-  );
-}
+import { redirect } from "next/navigation";
 
-export default Home;
+export default function Home() {
+  redirect("/notes");
+}
