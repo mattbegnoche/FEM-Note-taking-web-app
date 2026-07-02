@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
+
 function Settings() {
-  return <div></div>;
+  redirect("/settings/color-theme");
 }
 
 export default Settings;

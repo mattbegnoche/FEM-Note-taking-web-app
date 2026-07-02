@@ -23,7 +23,7 @@ const tags = [
   "TypeScript",
 ];
 
-export default function Sidebar() {
+export default function SidebarNavigation() {
   const pathname = usePathname();
 
   return (
