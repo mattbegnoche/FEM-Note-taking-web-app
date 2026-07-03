@@ -32,7 +32,13 @@ function NoteContent({ note }: { note: Note | null }) {
         <div className="flex items-center gap-3 text-sm">
           <span className="flex w-28 shrink-0 items-center gap-2 text-muted-foreground">
             <Clock className="size-4" />
-            Last edited
+            {note
+              ? note.lastEdited.toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })
+              : "Not yet saved"}
           </span>
           <span className="text-muted-foreground">Not yet saved</span>
         </div>
