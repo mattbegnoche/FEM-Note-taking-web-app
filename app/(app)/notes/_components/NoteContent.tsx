@@ -5,11 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { updateNote } from "../actions";
+import SubmitButton from "./SubmitButton";
 
 function NoteContent({ note }: { note: Note | null }) {
+  async function handleSave(formData: FormData) {
+    await updateNote(formData);
+    toast.success("Note saved");
+  }
+
   return (
-    <div className="col-span-6 flex h-full flex-col p-6">
+    <form action={handleSave} className="col-span-6 flex h-full flex-col p-6">
+      <input type="hidden" name="id" value={note?.id} />
+
       <Input
+        name="title"
         defaultValue={note?.title}
         type="text"
         placeholder="Enter a title..."
@@ -23,6 +33,7 @@ function NoteContent({ note }: { note: Note | null }) {
             Tags
           </span>
           <Input
+            name="tags"
             defaultValue={note?.tags.join(", ")}
             type="text"
             placeholder="Add tags separated by commas (e.g. Work, Planning)"
@@ -47,6 +58,7 @@ function NoteContent({ note }: { note: Note | null }) {
       <Separator className="my-4" />
 
       <textarea
+        name="content"
         placeholder="Start typing your note here..."
         className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         defaultValue={note?.content}
@@ -55,10 +67,12 @@ function NoteContent({ note }: { note: Note | null }) {
       <Separator className="my-4" />
 
       <div className="flex gap-2">
-        <Button onClick={() => toast.success("Note Saved")}>Save Note</Button>
-        <Button variant="secondary">Cancel</Button>
+        <SubmitButton>Save Note</SubmitButton>
+        <Button type="reset" variant="secondary">
+          Cancel
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }
 
