@@ -10,8 +10,9 @@ import SubmitButton from "./SubmitButton";
 
 function NoteContent({ note }: { note: Note | null }) {
   async function handleSave(formData: FormData) {
-    await updateNote(formData);
-    toast.success("Note saved");
+    const result = await updateNote(formData);
+    if (result.ok) toast.success("Note saved");
+    else toast.error(result.error);
   }
 
   return (

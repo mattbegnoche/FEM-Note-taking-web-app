@@ -4,6 +4,7 @@ import SidebarAllNotes from "./_components/SidebarAllNotes";
 import NoteItem from "./_components/NoteItem";
 import NoteContent from "./_components/NoteContent";
 import SidebarRight from "./_components/SidebarRight";
+import { redirect } from "next/navigation";
 
 export default async function AllNotes({
   searchParams,
@@ -13,6 +14,10 @@ export default async function AllNotes({
   const { note: selectedId } = await searchParams;
   const notes = await getNotes();
   const selected = selectedId ? await getNote(selectedId) : null;
+
+  if (!selected && notes.length > 0) {
+    redirect(`/notes?note=${notes[0].id}`);
+  }
 
   return (
     <>
@@ -29,7 +34,7 @@ export default async function AllNotes({
         ))}
       </SidebarAllNotes>
       <NoteContent key={selected?.id ?? "empty"} note={selected} />
-      <SidebarRight />
+      {selected && <SidebarRight noteId={selected?.id} />}
     </>
   );
 }
