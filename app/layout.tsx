@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Serif, Source_Code_Pro } from "next/font/google";
 import { ThemeProvider } from "../components/theme-provider";
+import { AppToast } from "./(app)/notes/_components/Toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className="font-sans min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <AppToast />
         </ThemeProvider>
       </body>
     </html>

@@ -1,7 +1,9 @@
+"use client";
 import { Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 function NoteContent() {
   return (
@@ -43,7 +45,7 @@ function NoteContent() {
       <Separator className="my-4" />
 
       <div className="flex gap-2">
-        <Button>Save Note</Button>
+        <Button onClick={() => toast.success("Note Saved")}>Save Note</Button>
         <Button variant="secondary">Cancel</Button>
       </div>
     </div>
