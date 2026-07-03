@@ -5,14 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { updateNote } from "../actions";
+import { createNote, updateNote } from "../actions";
 import SubmitButton from "./SubmitButton";
+import { useRouter } from "next/navigation";
 
 function NoteContent({ note }: { note: Note | null }) {
+  const router = useRouter();
+
   async function handleSave(formData: FormData) {
-    const result = await updateNote(formData);
-    if (result.ok) toast.success("Note saved");
-    else toast.error(result.error);
+    if (note) {
+      const result = await updateNote(formData);
+      if (result.ok) toast.success("Note saved");
+      else toast.error(result.error);
+    } else {
+      const result = await createNote(formData);
+      if (result.ok) {
+        toast.success("Note created");
+        router.push(`/notes?note=${result.id}`);
+      } else {
+        toast.error(result.error);
+      }
+    }
   }
 
   return (
@@ -44,6 +57,9 @@ function NoteContent({ note }: { note: Note | null }) {
         <div className="flex items-center gap-3 text-sm">
           <span className="flex w-28 shrink-0 items-center gap-2 text-muted-foreground">
             <Clock className="size-4" />
+            Last edited
+          </span>
+          <span className="text-muted-foreground">
             {note
               ? note.lastEdited.toLocaleDateString("en-US", {
                   day: "2-digit",
@@ -52,7 +68,6 @@ function NoteContent({ note }: { note: Note | null }) {
                 })
               : "Not yet saved"}
           </span>
-          <span className="text-muted-foreground">Not yet saved</span>
         </div>
       </div>
 
@@ -68,7 +83,7 @@ function NoteContent({ note }: { note: Note | null }) {
       <Separator className="my-4" />
 
       <div className="flex gap-2">
-        <SubmitButton>Save Note</SubmitButton>
+        <SubmitButton>{note ? "Save Note" : "Create Note"}</SubmitButton>
         <Button type="reset" variant="secondary">
           Cancel
         </Button>

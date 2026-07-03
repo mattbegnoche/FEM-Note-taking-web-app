@@ -11,6 +11,14 @@ export async function getNotes() {
   });
 }
 
+export async function getArchivedNotes() {
+  const user = await requireUser();
+  return prisma.note.findMany({
+    where: { userId: user.id, isArchived: true },
+    orderBy: { lastEdited: "desc" },
+  });
+}
+
 export async function getNote(id: string) {
   const user = await requireUser();
   return prisma.note.findUnique({

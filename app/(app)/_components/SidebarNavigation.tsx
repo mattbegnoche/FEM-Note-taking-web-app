@@ -12,7 +12,7 @@ const navItems = [
 
 export default function SidebarNavigation({ tags }: { tags: string[] }) {
   const pathname = usePathname();
-
+  const tagsAvail = tags.length > 0;
   return (
     <aside className="hidden md:flex flex-col w-64 h-svh border-r bg-background p-4 gap-4">
       <Link
@@ -36,9 +36,11 @@ export default function SidebarNavigation({ tags }: { tags: string[] }) {
       <hr />
 
       <div className="flex flex-col gap-1">
-        <p className="text-xs uppercase text-muted-foreground px-3 mb-1">
-          Tags
-        </p>
+        {tagsAvail && (
+          <p className="text-xs uppercase text-muted-foreground px-3 mb-1">
+            Tags
+          </p>
+        )}
         {tags.map((tag) => {
           const href = `/notes/tags/${tag.toLowerCase()}`;
           return (

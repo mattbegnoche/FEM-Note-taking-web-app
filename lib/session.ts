@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 
 export const requireUser = cache(async () => {
   const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-  return session.user;
+  const user = session?.user;
+  if (!user?.id) redirect("/login");
+  return { ...user, id: user.id };
 });

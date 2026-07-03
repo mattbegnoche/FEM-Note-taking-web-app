@@ -9,13 +9,12 @@ import { redirect } from "next/navigation";
 export default async function AllNotes({
   searchParams,
 }: {
-  searchParams: Promise<{ note?: string }>;
+  searchParams: Promise<{ note?: string; new?: string }>;
 }) {
-  const { note: selectedId } = await searchParams;
+  const { note: selectedId, new: isNew } = await searchParams;
   const notes = await getNotes();
   const selected = selectedId ? await getNote(selectedId) : null;
-
-  if (!selected && notes.length > 0) {
+  if (!selected && !isNew && notes.length > 0) {
     redirect(`/notes?note=${notes[0].id}`);
   }
 
@@ -33,7 +32,7 @@ export default async function AllNotes({
           </Link>
         ))}
       </SidebarAllNotes>
-      <NoteContent key={selected?.id ?? "empty"} note={selected} />
+      <NoteContent key={selected?.id ?? "new"} note={selected} />
       {selected && <SidebarRight noteId={selected?.id} />}
     </>
   );
