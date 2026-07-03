@@ -1,0 +1,127 @@
+// This file is the single source of truth for your database structure.
+// Coming from Mongoose: it plays the role of all your schema files combined,
+// but with two big differences:
+//   1. MongoDB is schemaless — Mongoose schemas are enforced only in your app.
+//      Here, `prisma migrate` turns this file into real SQL (CREATE TABLE...)
+//      and Postgres itself enforces the shape. Bad data can't sneak in.
+//   2. Each `model` becomes a table; each field becomes a typed column.
+//      Documents ~ rows, collections ~ tables.
+
+// Tells `prisma generate` to build a typed TypeScript client into lib/generated/.
+// That client is what replaces Mongoose models in your code:
+// prisma.note.findMany() instead of Note.find().
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+// Which database engine the schema compiles to. Connection URLs don't live
+// here in Prisma 7 — the CLI reads prisma.config.ts, the app passes a driver
+// adapter to PrismaClient.
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Auth.js models ──────────────────────────────────────────────────────────
+// The next four models belong to Auth.js (their field names/shapes are dictated
+// by @auth/prisma-adapter — don't rename things here without checking its docs).
+
+// One row per person. Created automatically by the adapter the first time
+// someone signs in with Google; their profile info lands in these columns.
+model User {
+  // In Mongo you got _id (ObjectId) for free. In SQL you declare your primary
+  // key explicitly: @id marks it, @default(cuid()) generates a collision-proof
+  // random string ID (similar spirit to ObjectId).
+  id            String    @id @default(cuid())
+  name          String?   // `?` = nullable column — same idea as a non-required Mongoose field
+  email         String    @unique // @unique creates a DB-level unique index — how the adapter answers "seen this Google user before?"
+  emailVerified DateTime?
+  image         String?   // Google avatar URL
+
+  // These three are "relation fields" — they exist only in Prisma, not as
+  // columns. In Mongo you'd embed subdocuments or store arrays of ObjectIds;
+  // in SQL the relationship lives on the OTHER table (each Note row carries a
+  // userId). These fields just let the client traverse it:
+  // prisma.user.findUnique({ include: { notes: true } })
+  accounts      Account[]
+  sessions      Session[]
+  notes         Note[]
+
+  createdAt     DateTime  @default(now()) // like Mongoose timestamps: true...
+  updatedAt     DateTime  @updatedAt      // ...Prisma bumps this on every update
+}
+
+// Links a User to one external login provider ("this user = this Google
+// account"). A user could have Google AND GitHub rows pointing at them.
+// Stores the OAuth tokens Google hands back.
+model Account {
+  userId            String
+  type              String  // e.g. "oauth"
+  provider          String  // e.g. "google"
+  providerAccountId String  // your user ID *inside Google's system*
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // This is a real SQL foreign key — the DB guarantees userId points at an
+  // existing User (Mongo never checked your ObjectId refs!).
+  // onDelete: Cascade = delete the User row and Postgres deletes their
+  // accounts too. No app code needed.
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Composite primary key: no single `id` column; the PAIR
+  // (provider, providerAccountId) uniquely identifies a row.
+  // "google" + "108234..." can only appear once.
+  @@id([provider, providerAccountId])
+}
+
+// One row per active login. The browser cookie holds sessionToken; Auth.js
+// looks it up here on every request. Deleting a row logs that device out —
+// server-side sessions you can see and revoke, unlike a self-contained JWT.
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime // past this moment the session is invalid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Used for email magic-link sign-in. Unused with Google-only login, but the
+// adapter expects the table to exist.
+model VerificationToken {
+  identifier String   // usually the email address
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// ─── App models ──────────────────────────────────────────────────────────────
+
+// Your data. In Mongo you might have EMBEDDED notes inside the user document;
+// the relational way is a separate table where every row points back at its
+// owner via userId. That's the classic one-to-many.
+model Note {
+  id         String   @id @default(uuid())
+  title      String
+  content    String   @db.Text  // @db.Text = unbounded text column, right for long note bodies
+  tags       String[] // native Postgres text array — fine for simple tags; if tags ever need their own features (rename everywhere, counts), promote to a Tag table + join table
+  isArchived Boolean  @default(false)
+  lastEdited DateTime @updatedAt      // auto-maintained; matches the db.json field
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Explicit index so "all notes for user X" — the query behind every page of
+  // this app — is a fast lookup instead of a full table scan. (Mongoose:
+  // like index: true on a field. Foreign keys don't get indexes automatically
+  // in Postgres.)
+  @@index([userId])
+}

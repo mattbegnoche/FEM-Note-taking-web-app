@@ -3,7 +3,6 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { toast } from "sonner";
 
 export default function SidebarAllNotes({
   children,

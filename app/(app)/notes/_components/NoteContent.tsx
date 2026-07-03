@@ -1,14 +1,16 @@
 "use client";
+import type { Note } from "@/lib/generated/prisma/client";
 import { Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 
-function NoteContent() {
+function NoteContent({ note }: { note: Note | null }) {
   return (
     <div className="col-span-6 flex h-full flex-col p-6">
       <Input
+        defaultValue={note?.title}
         type="text"
         placeholder="Enter a title..."
         className="h-auto border-none px-0 text-2xl font-bold shadow-none focus-visible:ring-0"
@@ -21,6 +23,7 @@ function NoteContent() {
             Tags
           </span>
           <Input
+            defaultValue={note?.tags.join(", ")}
             type="text"
             placeholder="Add tags separated by commas (e.g. Work, Planning)"
             className="h-auto flex-1 border-none px-0 shadow-none focus-visible:ring-0"
@@ -40,6 +43,7 @@ function NoteContent() {
       <textarea
         placeholder="Start typing your note here..."
         className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+        defaultValue={note?.content}
       />
 
       <Separator className="my-4" />
