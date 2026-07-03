@@ -17,3 +17,11 @@ export async function getNote(id: string) {
     where: { id, userId: user.id },
   });
 }
+
+export async function getTags() {
+  const user = await requireUser();
+  return prisma.note.findMany({
+    where: { userId: user.id, isArchived: false },
+    select: { tags: true },
+  });
+}

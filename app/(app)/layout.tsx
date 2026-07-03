@@ -1,13 +1,17 @@
+import { getTags } from "@/lib/notes";
 import BottomNav from "./_components/BottomNav";
 import PageHeader from "./_components/PageHeader";
 import SidebarNavigation from "./_components/SidebarNavigation";
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const tags = await getTags();
+  const formattedTags = [...new Set(tags.flatMap((tag) => tag.tags))];
+
   return (
     <div className="flex flex-row h-svh overflow-clip">
-      <SidebarNavigation />
+      <SidebarNavigation tags={formattedTags} />
       <div className="flex flex-col w-full">
         <div className="w-full">
           <PageHeader />

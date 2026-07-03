@@ -10,20 +10,7 @@ const navItems = [
   { href: "/notes/archived", icon: Archive, label: "Archived Notes" },
 ];
 
-const tags = [
-  "Cooking",
-  "Dev",
-  "Fitness",
-  "Health",
-  "Personal",
-  "React",
-  "Recipes",
-  "Shopping",
-  "Travel",
-  "TypeScript",
-];
-
-export default function SidebarNavigation() {
+export default function SidebarNavigation({ tags }: { tags: string[] }) {
   const pathname = usePathname();
 
   return (
