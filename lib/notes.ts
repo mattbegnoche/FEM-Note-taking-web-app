@@ -26,6 +26,14 @@ export async function getNote(id: string) {
   });
 }
 
+export async function getNotesByTag(tag: string) {
+  const user = await requireUser();
+  return prisma.note.findMany({
+    where: { userId: user.id, isArchived: false, tags: { has: tag } },
+    orderBy: { lastEdited: "desc" },
+  });
+}
+
 export async function getTags() {
   const user = await requireUser();
   return prisma.note.findMany({

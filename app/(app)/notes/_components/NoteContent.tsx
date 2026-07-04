@@ -37,7 +37,7 @@ function NoteContent({ note }: { note: Note | null }) {
         defaultValue={note?.title}
         type="text"
         placeholder="Enter a title..."
-        className="h-auto border-none px-0 text-2xl font-bold shadow-none focus-visible:ring-0"
+        className="h-auto rounded-none border-none bg-transparent px-0 text-3xl font-bold shadow-none focus-visible:ring-0 md:text-3xl dark:bg-transparent"
       />
 
       <div className="mt-4 flex flex-col gap-2">

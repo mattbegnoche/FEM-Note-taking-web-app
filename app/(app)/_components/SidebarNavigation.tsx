@@ -42,7 +42,7 @@ export default function SidebarNavigation({ tags }: { tags: string[] }) {
           </p>
         )}
         {tags.map((tag) => {
-          const href = `/notes/tags/${tag.toLowerCase()}`;
+          const href = `/notes/tags/${encodeURIComponent(tag)}`;
           return (
             <SidebarItem
               key={href}

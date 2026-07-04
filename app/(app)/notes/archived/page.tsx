@@ -1,10 +1,6 @@
-import Link from "next/link";
 import { getArchivedNotes, getNote } from "@/lib/notes";
-import SidebarAllNotes from "../_components/SidebarAllNotes";
-import NoteItem from "../_components/NoteItem";
-import NoteContent from "../_components/NoteContent";
-import SidebarRight from "../_components/SidebarRight";
 import { redirect } from "next/navigation";
+import NotesView from "../_components/NotesView";
 
 export default async function ArchivedNotes({
   searchParams,
@@ -20,21 +16,11 @@ export default async function ArchivedNotes({
   }
 
   return (
-    <>
-      <SidebarAllNotes>
-        {notes.map((note) => (
-          <Link key={note.id} href={`/notes/archived?note=${note.id}`}>
-            <NoteItem
-              title={note.title}
-              tags={note.tags}
-              lastEdited={note.lastEdited.toISOString()}
-              active={note.id === selectedId}
-            />
-          </Link>
-        ))}
-      </SidebarAllNotes>
-      <NoteContent key={selected?.id ?? "empty"} note={selected} />
-      {selected && <SidebarRight noteId={selected?.id} />}
-    </>
+    <NotesView
+      notes={notes}
+      selected={selected}
+      selectedId={selectedId}
+      basePath="/notes/archived"
+    />
   );
 }
