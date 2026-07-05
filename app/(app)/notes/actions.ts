@@ -76,6 +76,22 @@ export async function archiveNote(id: string): Promise<ActionResult> {
   return { ok: true };
 }
 
+export async function unarchiveNote(id: string): Promise<ActionResult> {
+  const user = await requireUser();
+
+  try {
+    await prisma.note.update({
+      where: { id, userId: user.id },
+      data: { isArchived: false },
+    });
+  } catch {
+    return { ok: false, error: "Couldn't archive the note. Please try again." };
+  }
+
+  revalidatePath("/notes/archived");
+  return { ok: true };
+}
+
 export async function deleteNote(id: string): Promise<ActionResult> {
   const user = await requireUser();
 

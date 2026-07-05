@@ -31,7 +31,9 @@ export default function NotesView({
         ))}
       </SidebarAllNotes>
       <NoteContent key={selected?.id ?? "empty"} note={selected} />
-      {selected && <SidebarRight noteId={selected.id} />}
+      {selected && (
+        <SidebarRight noteId={selected.id} isArchived={selected.isArchived} />
+      )}
     </>
   );
 }

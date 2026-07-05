@@ -1,13 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { archiveNote, deleteNote } from "../actions";
+import { archiveNote, deleteNote, unarchiveNote } from "../actions";
 import { useState } from "react";
-import { Archive, Trash2 } from "lucide-react";
+import { Archive, RotateCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ConfirmDialog from "./ConfirmDialog";
 
-function SidebarRight({ noteId }: { noteId: string }) {
+function SidebarRight({
+  noteId,
+  isArchived,
+}: {
+  noteId: string;
+  isArchived: boolean;
+}) {
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -21,8 +27,8 @@ function SidebarRight({ noteId }: { noteId: string }) {
         className="w-full justify-start"
         onClick={() => setArchiveOpen(true)}
       >
-        <Archive />
-        Archive Note
+        {isArchived ? <RotateCcw /> : <Archive />}
+        {isArchived ? "Restore Note" : "Archive Note"}
       </Button>
       <Button
         variant="outline"
@@ -37,16 +43,27 @@ function SidebarRight({ noteId }: { noteId: string }) {
       <ConfirmDialog
         open={archiveOpen}
         onOpenChange={setArchiveOpen}
-        icon={Archive}
-        title="Archive Note"
-        description="Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime."
-        confirmLabel="Archive Note"
+        icon={isArchived ? RotateCcw : Archive}
+        title={isArchived ? "Unarchive Note" : "Archive Note"}
+        description={
+          isArchived
+            ? "Are you sure you want to unarchive this note? You can find it in the All Notes section and archive it anytime."
+            : "Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime."
+        }
+        confirmLabel={isArchived ? "Unarchive Note" : "Archive Note"}
         variant="default"
         onConfirm={async () => {
-          await archiveNote(noteId);
-          setArchiveOpen(false);
-          toast.success("Note archived");
-          router.push("/notes");
+          if (isArchived) {
+            await unarchiveNote(noteId);
+            setArchiveOpen(false);
+            toast.success("Note unarchived");
+            router.push("/notes/archived");
+          } else {
+            await archiveNote(noteId);
+            setArchiveOpen(false);
+            toast.success("Note archived");
+            router.push("/notes");
+          }
         }}
       />
       <ConfirmDialog
