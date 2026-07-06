@@ -11,6 +11,21 @@ export async function getNotes() {
   });
 }
 
+export async function searchNotes(query: string) {
+  const user = await requireUser();
+  return prisma.note.findMany({
+    where: {
+      userId: user.id,
+      OR: [
+        { title: { contains: query, mode: "insensitive" } },
+        { content: { contains: query, mode: "insensitive" } },
+        { tags: { has: query } },
+      ],
+    },
+    orderBy: { lastEdited: "desc" },
+  });
+}
+
 export async function getArchivedNotes() {
   const user = await requireUser();
   return prisma.note.findMany({

@@ -18,15 +18,7 @@ export default function SidebarAllNotes({
           Create New Note
         </Link>
       </Button>
-
-      {children ? (
-        <div className="flex flex-col gap-4">{children}</div>
-      ) : (
-        <div className="rounded-lg bg-muted p-4 text-sm text-muted-foreground">
-          You don&apos;t have any notes yet. Start a new note to capture your
-          thoughts and ideas.
-        </div>
-      )}
+      {children}
     </div>
   );
 }

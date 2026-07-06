@@ -1,8 +1,20 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useSearchParams,
+} from "next/navigation";
 
-function titleFor(pathname: string): string {
+function titleFor(
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams,
+): string {
+  if (pathname.startsWith("/notes/search")) {
+    const q = searchParams.get("q");
+    return q ? `Showing results for: ${searchParams.get("q")}` : "Search";
+  }
+
   if (pathname.startsWith("/notes/archived")) return "Archived Notes";
   if (pathname.startsWith("/notes/tags/")) {
     const tag = decodeURIComponent(pathname.split("/").pop() ?? "");
@@ -14,7 +26,10 @@ function titleFor(pathname: string): string {
 
 export default function PageTitle() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   return (
-    <h1 className="text-2xl font-bold text-foreground">{titleFor(pathname)}</h1>
+    <h1 className="text-2xl font-bold text-foreground">
+      {titleFor(pathname, searchParams)}
+    </h1>
   );
 }

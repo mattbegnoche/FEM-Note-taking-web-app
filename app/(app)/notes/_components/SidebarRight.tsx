@@ -78,7 +78,8 @@ function SidebarRight({
           await deleteNote(noteId);
           setDeleteOpen(false);
           toast.success("Note deleted");
-          router.push("/notes");
+          if (isArchived) router.push("/notes/archived");
+          if (!isArchived) router.push("/notes");
         }}
       />
     </div>

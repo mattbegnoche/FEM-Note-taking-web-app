@@ -21,6 +21,7 @@ export default async function AllNotes({
         selected={selected}
         selectedId={selectedId}
         basePath="/notes"
+        isNew={!!isNew}
       />
     </>
   );

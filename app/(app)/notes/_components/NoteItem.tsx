@@ -25,7 +25,11 @@ function NoteItem({ title, tags, lastEdited, active = false }: NoteItemProps) {
         {tags.map((tag) => (
           <span
             key={tag}
-            className="rounded-md bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
+            className={
+              active
+                ? "rounded-md bg-background px-2 py-0.5 text-xs text-secondary-foreground"
+                : "rounded-md bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
+            }
           >
             {tag}
           </span>

@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight, Lock, LogOut, Sun, Type } from "lucide-react";
+import { ChevronRight, LogOut, Sun, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 const sections = [
   { href: "/settings/color-theme", icon: Sun, label: "Color Theme" },
   { href: "/settings/font-theme", icon: Type, label: "Font Theme" },
-  { href: "/settings/change-password", icon: Lock, label: "Change Password" },
 ];
 
 function SettingsMenu() {

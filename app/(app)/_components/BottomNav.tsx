@@ -6,7 +6,7 @@ import { Home, Search, Archive, Tag, Settings } from 'lucide-react'
 
 const navItems = [
   { href: '/notes',          icon: Home,    label: 'Home'     },
-  { href: '/search',         icon: Search,  label: 'Search'   },
+  { href: '/notes/search',   icon: Search,  label: 'Search'   },
   { href: '/notes/archived', icon: Archive, label: 'Archived' },
   { href: '/notes/tags',     icon: Tag,     label: 'Tags'     },
   { href: '/settings',       icon: Settings, label: 'Settings' },

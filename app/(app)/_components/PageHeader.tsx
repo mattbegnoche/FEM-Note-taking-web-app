@@ -3,20 +3,14 @@ import { Search, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import PageTitle from "./PageTitle";
+import SearchForm from "./SearchForm";
 
 function PageHeader() {
   return (
     <div className="flex h-20 w-full items-center justify-between border-b px-8">
       <PageTitle />
       <div className="flex items-center gap-4">
-        <div className="relative w-72">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search by title, content, or tags…"
-            className="h-11 pl-9"
-          />
-        </div>
+        <SearchForm />
         <Button variant="ghost" size="icon-lg" asChild>
           <Link href="/settings">
             <Settings className="text-muted-foreground" />
