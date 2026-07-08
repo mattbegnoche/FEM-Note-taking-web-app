@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ChevronRight, LogOut, Sun, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { signOutUser } from "@/app/(auth)/actions";
 
 const sections = [
   { href: "/settings/color-theme", icon: Sun, label: "Color Theme" },
@@ -13,9 +14,12 @@ const sections = [
 
 function SettingsMenu() {
   const pathname = usePathname();
+  const isIndex = pathname === "/settings";
 
   return (
-    <div className="col-span-3 flex flex-col gap-1 p-4 border-r">
+    <div
+      className={`${isIndex ? "flex" : "hidden md:flex"} md:col-span-3 flex-col gap-1 p-4 md:border-r`}
+    >
       {sections.map(({ href, icon: Icon, label }) => {
         const isActive = pathname === href;
         return (
@@ -43,6 +47,7 @@ function SettingsMenu() {
       <Separator className="my-2" />
 
       <Button
+        onClick={() => signOutUser()}
         variant="ghost"
         className="h-auto w-full justify-start px-3 py-2 text-sm font-normal text-muted-foreground hover:bg-accent hover:text-accent-foreground"
       >

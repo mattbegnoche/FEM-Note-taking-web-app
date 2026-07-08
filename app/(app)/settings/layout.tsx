@@ -1,11 +1,12 @@
 import React from "react";
 import SettingsMenu from "./_components/SettingsMenu";
+import SettingsContent from "./_components/SettingsContent";
 
 function SettingsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SettingsMenu />
-      <div className="col-span-6 p-8">{children}</div>
+      <SettingsContent>{children}</SettingsContent>
     </>
   );
 }

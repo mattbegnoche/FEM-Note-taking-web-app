@@ -13,6 +13,7 @@ export default function NotesView({
   isNew,
   query,
   emptyMessage = "You don't have any notes yet. Start a new note to capture your thoughts and ideas.",
+  listHeader,
 }: {
   notes: Note[];
   selected: Note | null;
@@ -21,12 +22,14 @@ export default function NotesView({
   isNew?: boolean;
   query?: Record<string, string>;
   emptyMessage?: string;
+  listHeader?: React.ReactNode;
 }) {
   return (
     <>
       <SidebarAllNotes
         className={selected || isNew ? "hidden md:flex" : "flex"}
       >
+        {listHeader}
         {notes.length > 0 ? (
           notes.map((note) => (
             <Link

@@ -26,20 +26,29 @@ function titleFor(
 }
 
 export default function PageTitle({
-  hideWhenNoteOpen = false,
+  mobile = false,
 }: {
-  hideWhenNoteOpen?: boolean;
+  mobile?: boolean;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  if (hideWhenNoteOpen && (searchParams.get("note") || searchParams.get("new"))) {
+  if (mobile && (searchParams.get("note") || searchParams.get("new"))) {
     return null;
   }
 
-  return (
-    <h1 className="text-2xl font-bold text-foreground">
-      {titleFor(pathname, searchParams)}
-    </h1>
-  );
+  // Settings subpages render their own heading plus a back link on mobile,
+  // so the layout-level title only shows on the settings index screen.
+  if (mobile && pathname.startsWith("/settings/")) {
+    return null;
+  }
+
+  // On mobile the search screen has its own input + helper text, so the
+  // title stays a plain "Search" instead of echoing the query.
+  const title =
+    mobile && pathname.startsWith("/notes/search")
+      ? "Search"
+      : titleFor(pathname, searchParams);
+
+  return <h1 className="text-2xl font-bold text-foreground">{title}</h1>;
 }

@@ -1,4 +1,5 @@
 import { getNote, searchNotes } from "@/lib/notes";
+import SearchForm from "@/app/(app)/_components/SearchForm";
 import NotesView from "../_components/NotesView";
 
 export default async function SearchPage({
@@ -23,6 +24,16 @@ export default async function SearchPage({
         query
           ? `No notes match "${query}". Try a different keyword.`
           : "Start typing to search your notes by title, content, or tags."
+      }
+      listHeader={
+        <div className="flex flex-col gap-3 md:hidden">
+          <SearchForm className="w-full" />
+          {query && (
+            <p className="text-sm text-muted-foreground">
+              All notes matching &quot;{query}&quot; are displayed below.
+            </p>
+          )}
+        </div>
       }
     />
   );

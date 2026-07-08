@@ -2,10 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { useRef, useState } from "react";
 
-function SearchForm() {
+function SearchForm({ className }: { className?: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -32,7 +33,7 @@ function SearchForm() {
   }
 
   return (
-    <form action="/notes/search" className="relative w-72">
+    <form action="/notes/search" className={cn("relative w-72", className)}>
       <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         name="q"

@@ -30,7 +30,7 @@ export default async function AppLayout({
           <PageHeader />
         </div>
         <div className="md:hidden px-6 pt-6">
-          <PageTitle hideWhenNoteOpen />
+          <PageTitle mobile />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-12 flex-1 min-h-0 pb-16 md:pb-0">
           {children}

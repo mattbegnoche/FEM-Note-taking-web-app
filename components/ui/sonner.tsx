@@ -1,15 +1,35 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
 
+// Matches the app's md breakpoint (--breakpoint-md in globals.css).
+const DESKTOP_QUERY = "(min-width: 68.75rem)"
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(true)
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_QUERY)
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
+
+  return isDesktop
+}
+
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
+  const isDesktop = useIsDesktop()
 
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
+      position={isDesktop ? "bottom-right" : "top-center"}
       className="toaster group"
       icons={{
         success: (

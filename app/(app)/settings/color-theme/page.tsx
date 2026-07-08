@@ -33,7 +33,7 @@ export default function ColorThemePage() {
   const [selected, setSelected] = useState(theme ?? "system");
 
   return (
-    <div className="col-span-9 flex flex-col p-6">
+    <div className="flex flex-col">
       <h1 className="text-xl font-bold text-foreground">Color Theme</h1>
       <p className="mb-4 text-sm text-muted-foreground">
         Choose your color theme:

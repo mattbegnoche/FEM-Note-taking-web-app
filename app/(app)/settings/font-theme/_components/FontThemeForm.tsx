@@ -41,7 +41,7 @@ function FontThemeForm({ current }: { current: FontTheme }) {
   }
 
   return (
-    <form action={handleSave} className="col-span-9 flex flex-col p-6">
+    <form action={handleSave} className="flex flex-col">
       <h1 className="text-xl font-bold text-foreground">Font Theme</h1>
       <p className="mb-4 text-sm text-muted-foreground">
         Choose your font theme:

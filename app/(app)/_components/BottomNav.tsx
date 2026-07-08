@@ -18,14 +18,17 @@ export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 flex justify-around items-center h-16 border-t bg-background md:hidden">
       {navItems.map(({ href, icon: Icon, label }) => {
-        const isActive = pathname === href
+        // "/notes" is a prefix of every other route, so it only matches
+        // exactly; the rest highlight on their whole subtree.
+        const isActive =
+          href === '/notes' ? pathname === '/notes' : pathname.startsWith(href)
 
         return (
           <Link
             key={href}
             href={href}
-            className={`flex flex-col items-center gap-1 text-xs ${
-              isActive ? 'text-primary' : 'text-muted-foreground'
+            className={`flex flex-col items-center gap-1 rounded-xl px-6 py-2.5 text-xs transition-colors ${
+              isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'
             }`}
           >
             <Icon className="w-5 h-5" />
