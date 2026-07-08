@@ -24,7 +24,7 @@ export default async function AppLayout({
       className={`flex flex-row h-svh overflow-clip ${fontClasses[fontTheme]}`}
     >
       <SidebarNavigation tags={formattedTags} />
-      <div className="flex flex-col w-full">
+      <div className="flex min-w-0 w-full flex-col">
         <MobileHeader />
         <div className="w-full">
           <PageHeader />

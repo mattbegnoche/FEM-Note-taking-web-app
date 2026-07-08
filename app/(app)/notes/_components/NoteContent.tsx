@@ -2,7 +2,6 @@
 import type { Note } from "@/lib/generated/prisma/client";
 import { ChevronLeft, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { createNote, updateNote } from "../actions";
@@ -41,7 +40,7 @@ function NoteContent({
   return (
     <form
       action={handleSave}
-      className="md:col-span-6 flex h-full min-h-0 flex-col p-6"
+      className="md:col-span-6 flex h-full min-h-0 min-w-0 flex-col p-6"
     >
       <input type="hidden" name="id" value={note?.id} />
 
@@ -58,21 +57,28 @@ function NoteContent({
           {note && (
             <MobileNoteActions noteId={note.id} isArchived={note.isArchived} />
           )}
-          <Button type="reset" variant="ghost" size="sm">
-            Cancel
-          </Button>
-          <SubmitButton variant="ghost" size="sm" className="text-primary">
-            Save Note
-          </SubmitButton>
         </div>
       </div>
 
-      <Input
+      {/* Mobile save/cancel row */}
+      <div className="mb-3 flex gap-3 md:hidden">
+        <Button type="reset" variant="secondary" className="flex-1">
+          Cancel
+        </Button>
+        <SubmitButton className="flex-1">
+          {note ? "Save Note" : "Create Note"}
+        </SubmitButton>
+      </div>
+
+      <textarea
         name="title"
+        rows={1}
         defaultValue={note?.title}
-        type="text"
         placeholder="Enter a title..."
-        className="h-auto rounded-none border-none bg-transparent px-0 text-3xl font-bold shadow-none focus-visible:ring-0 md:text-3xl dark:bg-transparent"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.preventDefault();
+        }}
+        className="field-sizing-content w-full resize-none bg-transparent text-3xl font-bold outline-none placeholder:text-muted-foreground"
       />
 
       <div className="mt-4 flex flex-col gap-2">
@@ -81,12 +87,15 @@ function NoteContent({
             <Tag className="size-4" />
             Tags
           </span>
-          <Input
+          <textarea
             name="tags"
+            rows={1}
             defaultValue={note?.tags.join(", ")}
-            type="text"
             placeholder="Add tags separated by commas (e.g. Work, Planning)"
-            className="h-auto flex-1 border-none px-0 shadow-none focus-visible:ring-0"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault();
+            }}
+            className="field-sizing-content min-w-0 flex-1 resize-none bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>
         <div className="flex items-center gap-3 text-sm">

@@ -7,7 +7,9 @@ import { requireUser } from "@/lib/session";
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 function parseNoteForm(formData: FormData) {
-  const title = ((formData.get("title") as string) ?? "").trim();
+  const title = ((formData.get("title") as string) ?? "")
+    .replace(/\s+/g, " ")
+    .trim();
   const content = (formData.get("content") as string) ?? "";
   const tags = ((formData.get("tags") as string) ?? "")
     .split(",")

@@ -16,6 +16,7 @@ function titleFor(
   }
 
   if (pathname.startsWith("/notes/archived")) return "Archived Notes";
+  if (pathname === "/notes/tags") return "Tags";
   if (pathname.startsWith("/notes/tags/")) {
     const tag = decodeURIComponent(pathname.split("/").pop() ?? "");
     return `Notes Tagged: ${tag}`;

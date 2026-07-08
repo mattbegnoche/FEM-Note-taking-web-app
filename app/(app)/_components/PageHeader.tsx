@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { Search, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import PageTitle from "./PageTitle";
 import SearchForm from "./SearchForm";
 
