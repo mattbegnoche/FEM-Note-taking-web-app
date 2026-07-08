@@ -7,7 +7,7 @@ import SearchForm from "./SearchForm";
 
 function PageHeader() {
   return (
-    <div className="flex h-20 w-full items-center justify-between border-b px-8">
+    <div className="hidden md:flex h-20 w-full items-center justify-between border-b px-8">
       <PageTitle />
       <div className="flex items-center gap-4">
         <SearchForm />

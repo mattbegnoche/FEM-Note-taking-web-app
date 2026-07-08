@@ -47,7 +47,7 @@ function FontThemeForm({ current }: { current: FontTheme }) {
         Choose your font theme:
       </p>
 
-      <RadioGroup defaultValue={current}>
+      <RadioGroup name="fontTheme" defaultValue={current}>
         {options.map(({ value, font, title, description }) => (
           <Label
             key={value}

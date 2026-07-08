@@ -24,7 +24,9 @@ export default function NotesView({
 }) {
   return (
     <>
-      <SidebarAllNotes>
+      <SidebarAllNotes
+        className={selected || isNew ? "hidden md:flex" : "flex"}
+      >
         {notes.length > 0 ? (
           notes.map((note) => (
             <Link
@@ -46,9 +48,15 @@ export default function NotesView({
         )}
       </SidebarAllNotes>
       {selected || isNew ? (
-        <NoteContent key={selected?.id ?? "new"} note={selected} />
+        <NoteContent
+          key={selected?.id ?? "new"}
+          note={selected}
+          backHref={{ pathname: basePath, query }}
+        />
       ) : (
-        ""
+        <div className="hidden md:flex md:col-span-6 items-center justify-center p-6 text-sm text-muted-foreground">
+          Select a note to view it.
+        </div>
       )}
       {selected && (
         <SidebarRight noteId={selected.id} isArchived={selected.isArchived} />

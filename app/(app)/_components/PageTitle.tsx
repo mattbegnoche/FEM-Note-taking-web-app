@@ -24,9 +24,18 @@ function titleFor(
   return "All Notes";
 }
 
-export default function PageTitle() {
+export default function PageTitle({
+  hideWhenNoteOpen = false,
+}: {
+  hideWhenNoteOpen?: boolean;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  if (hideWhenNoteOpen && (searchParams.get("note") || searchParams.get("new"))) {
+    return null;
+  }
+
   return (
     <h1 className="text-2xl font-bold text-foreground">
       {titleFor(pathname, searchParams)}

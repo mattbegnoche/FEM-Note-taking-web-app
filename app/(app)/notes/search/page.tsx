@@ -1,5 +1,4 @@
 import { getNote, searchNotes } from "@/lib/notes";
-import { redirect } from "next/navigation";
 import NotesView from "../_components/NotesView";
 
 export default async function SearchPage({
@@ -12,12 +11,6 @@ export default async function SearchPage({
 
   const notes = query ? await searchNotes(query) : [];
   const selected = selectedId ? await getNote(selectedId) : null;
-
-  if (!selected && notes.length > 0) {
-    redirect(
-      `/notes/search?q=${encodeURIComponent(query)}&note=${notes[0].id}`,
-    );
-  }
 
   return (
     <NotesView

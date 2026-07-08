@@ -1,5 +1,4 @@
 import { getNotesByTag, getNote } from "@/lib/notes";
-import { redirect } from "next/navigation";
 import NotesView from "../../_components/NotesView";
 
 export default async function TagNotes({
@@ -17,9 +16,6 @@ export default async function TagNotes({
   const selected = selectedId ? await getNote(selectedId) : null;
 
   const basePath = `/notes/tags/${encodeURIComponent(tag)}`;
-  if (!selected && notes.length > 0) {
-    redirect(`${basePath}?note=${notes[0].id}`);
-  }
 
   return (
     <NotesView

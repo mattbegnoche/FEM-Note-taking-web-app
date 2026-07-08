@@ -1,15 +1,25 @@
 "use client";
 import type { Note } from "@/lib/generated/prisma/client";
-import { Clock, Tag } from "lucide-react";
+import { ChevronLeft, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { createNote, updateNote } from "../actions";
+import MobileNoteActions from "./MobileNoteActions";
 import SubmitButton from "./SubmitButton";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-function NoteContent({ note }: { note: Note | null }) {
+type BackHref = { pathname: string; query?: Record<string, string> };
+
+function NoteContent({
+  note,
+  backHref,
+}: {
+  note: Note | null;
+  backHref: BackHref;
+}) {
   const router = useRouter();
 
   async function handleSave(formData: FormData) {
@@ -29,8 +39,33 @@ function NoteContent({ note }: { note: Note | null }) {
   }
 
   return (
-    <form action={handleSave} className="col-span-6 flex h-full flex-col p-6">
+    <form
+      action={handleSave}
+      className="md:col-span-6 flex h-full min-h-0 flex-col p-6"
+    >
       <input type="hidden" name="id" value={note?.id} />
+
+      {/* Mobile action bar */}
+      <div className="-mx-2 mb-3 flex items-center border-b pb-3 md:hidden">
+        <Link
+          href={backHref}
+          className="flex items-center gap-1 px-2 text-sm text-muted-foreground"
+        >
+          <ChevronLeft className="size-4" />
+          Go Back
+        </Link>
+        <div className="ml-auto flex items-center gap-1">
+          {note && (
+            <MobileNoteActions noteId={note.id} isArchived={note.isArchived} />
+          )}
+          <Button type="reset" variant="ghost" size="sm">
+            Cancel
+          </Button>
+          <SubmitButton variant="ghost" size="sm" className="text-primary">
+            Save Note
+          </SubmitButton>
+        </div>
+      </div>
 
       <Input
         name="title"
@@ -80,9 +115,9 @@ function NoteContent({ note }: { note: Note | null }) {
         defaultValue={note?.content}
       />
 
-      <Separator className="my-4" />
+      <Separator className="my-4 hidden md:block" />
 
-      <div className="flex gap-2">
+      <div className="hidden gap-2 md:flex">
         <SubmitButton>{note ? "Save Note" : "Create Note"}</SubmitButton>
         <Button type="reset" variant="secondary">
           Cancel
