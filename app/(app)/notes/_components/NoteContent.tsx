@@ -1,4 +1,5 @@
 "use client";
+import { formatDate } from "@/lib/format";
 import type { Note } from "@/lib/generated/prisma/client";
 import { ChevronLeft, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,6 @@ function NoteContent({
     >
       <input type="hidden" name="id" value={note?.id} />
 
-      {/* Mobile action bar */}
       <div className="-mx-2 mb-3 flex items-center border-b pb-3 md:hidden">
         <Link
           href={backHref}
@@ -60,7 +60,6 @@ function NoteContent({
         </div>
       </div>
 
-      {/* Mobile save/cancel row */}
       <div className="mb-3 flex gap-3 md:hidden">
         <Button type="reset" variant="secondary" className="flex-1">
           Cancel
@@ -104,13 +103,7 @@ function NoteContent({
             Last edited
           </span>
           <span className="text-muted-foreground">
-            {note
-              ? note.lastEdited.toLocaleDateString("en-US", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-              : "Not yet saved"}
+            {note ? formatDate(note.lastEdited) : "Not yet saved"}
           </span>
         </div>
       </div>

@@ -16,7 +16,6 @@ function NoteItemSkeleton() {
 export default function NotesViewSkeleton() {
   return (
     <>
-      {/* List column — mirrors SidebarAllNotes */}
       <div className="md:col-span-3 flex flex-col gap-4 border-r p-6">
         <Skeleton className="hidden h-10 w-full md:block" />
         {Array.from({ length: 6 }).map((_, i) => (
@@ -24,7 +23,6 @@ export default function NotesViewSkeleton() {
         ))}
       </div>
 
-      {/* Content pane — desktop only, mirrors the editor area */}
       <div className="hidden flex-col gap-4 p-6 md:col-span-6 md:flex">
         <Skeleton className="h-9 w-2/3" />
         <Skeleton className="h-5 w-1/2" />

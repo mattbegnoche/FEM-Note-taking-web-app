@@ -1,17 +1,13 @@
+import { formatDate } from "@/lib/format";
+
 interface NoteItemProps {
   title: string;
   tags: string[];
-  lastEdited: string;
+  lastEdited: Date;
   active?: boolean;
 }
 
 function NoteItem({ title, tags, lastEdited, active = false }: NoteItemProps) {
-  const formattedDate = new Date(lastEdited).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-
   return (
     <div
       className={
@@ -35,7 +31,9 @@ function NoteItem({ title, tags, lastEdited, active = false }: NoteItemProps) {
           </span>
         ))}
       </div>
-      <span className="text-sm text-muted-foreground">{formattedDate}</span>
+      <span className="text-sm text-muted-foreground">
+        {formatDate(lastEdited)}
+      </span>
     </div>
   );
 }

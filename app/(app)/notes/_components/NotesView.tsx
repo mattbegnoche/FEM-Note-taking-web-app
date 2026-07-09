@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { Note } from "@/lib/generated/prisma/client";
-import SidebarAllNotes from "./SidebarAllNotes";
+import NotesList from "./NotesList";
 import NoteItem from "./NoteItem";
 import NoteContent from "./NoteContent";
-import SidebarRight from "./SidebarRight";
+import NoteActionsPanel from "./NoteActionsPanel";
 
 export default function NotesView({
   notes,
@@ -26,7 +26,7 @@ export default function NotesView({
 }) {
   return (
     <>
-      <SidebarAllNotes
+      <NotesList
         className={selected || isNew ? "hidden md:flex" : "flex"}
       >
         {listHeader}
@@ -39,7 +39,7 @@ export default function NotesView({
               <NoteItem
                 title={note.title}
                 tags={note.tags}
-                lastEdited={note.lastEdited.toISOString()}
+                lastEdited={note.lastEdited}
                 active={note.id === selectedId}
               />
             </Link>
@@ -49,7 +49,7 @@ export default function NotesView({
             {emptyMessage}
           </div>
         )}
-      </SidebarAllNotes>
+      </NotesList>
       {selected || isNew ? (
         <NoteContent
           key={selected?.id ?? "new"}
@@ -57,12 +57,12 @@ export default function NotesView({
           backHref={{ pathname: basePath, query }}
         />
       ) : (
-        <div className="hidden md:flex md:col-span-6 items-center justify-center p-6 text-sm text-muted-foreground">
+        <div className="hidden p-6 text-sm text-muted-foreground md:block md:col-span-6">
           Select a note to view it.
         </div>
       )}
       {selected && (
-        <SidebarRight noteId={selected.id} isArchived={selected.isArchived} />
+        <NoteActionsPanel noteId={selected.id} isArchived={selected.isArchived} />
       )}
     </>
   );

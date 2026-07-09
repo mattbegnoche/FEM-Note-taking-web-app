@@ -5,6 +5,7 @@ import {
   usePathname,
   useSearchParams,
 } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 function titleFor(
   pathname: string,
@@ -50,5 +51,14 @@ export default function PageTitle({
       ? "Search"
       : titleFor(pathname, searchParams);
 
-  return <h1 className="text-2xl font-bold text-foreground">{title}</h1>;
+  return (
+    <h1
+      className={cn(
+        "text-2xl font-bold text-foreground",
+        mobile && "px-6 pt-6",
+      )}
+    >
+      {title}
+    </h1>
+  );
 }

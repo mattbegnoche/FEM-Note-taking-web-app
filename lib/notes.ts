@@ -49,10 +49,11 @@ export async function getNotesByTag(tag: string) {
   });
 }
 
-export async function getTags() {
+export async function getTagList() {
   const user = await requireUser();
-  return prisma.note.findMany({
+  const rows = await prisma.note.findMany({
     where: { userId: user.id, isArchived: false },
     select: { tags: true },
   });
+  return [...new Set(rows.flatMap((row) => row.tags))].sort();
 }

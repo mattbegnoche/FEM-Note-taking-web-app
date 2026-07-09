@@ -1,4 +1,4 @@
-import { getTags } from "@/lib/notes";
+import { getTagList } from "@/lib/notes";
 import { getFontTheme } from "@/lib/preferences";
 import BottomNav from "./_components/BottomNav";
 import MobileHeader from "./_components/MobileHeader";
@@ -16,20 +16,19 @@ const fontClasses = {
 export default async function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [tags, fontTheme] = await Promise.all([getTags(), getFontTheme()]);
-  const formattedTags = [...new Set(tags.flatMap((tag) => tag.tags))];
+  const [tags, fontTheme] = await Promise.all([getTagList(), getFontTheme()]);
 
   return (
     <div
       className={`flex flex-row h-svh overflow-clip ${fontClasses[fontTheme]}`}
     >
-      <SidebarNavigation tags={formattedTags} />
+      <SidebarNavigation tags={tags} />
       <div className="flex min-w-0 w-full flex-col">
         <MobileHeader />
         <div className="w-full">
           <PageHeader />
         </div>
-        <div className="md:hidden px-6 pt-6">
+        <div className="md:hidden">
           <PageTitle mobile />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-12 flex-1 min-h-0 pb-16 md:pb-0">

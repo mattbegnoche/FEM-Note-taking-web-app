@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { Tag } from "lucide-react";
-import { getTags } from "@/lib/notes";
+import { getTagList } from "@/lib/notes";
 
 export default async function TagsPage() {
-  const rows = await getTags();
-  const tags = [...new Set(rows.flatMap((row) => row.tags))].sort();
+  const tags = await getTagList();
 
   return (
     <div className="flex flex-col px-6 md:col-span-9">

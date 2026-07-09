@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import Link from "next/link";
 
-export default function SidebarAllNotes({
+export default function NotesList({
   children,
   className,
 }: {

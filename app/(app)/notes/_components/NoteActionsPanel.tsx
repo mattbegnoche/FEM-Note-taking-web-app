@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import NoteActionDialogs from "./NoteActionDialogs";
 import { useNoteActions } from "./useNoteActions";
 
-function SidebarRight({
+function NoteActionsPanel({
   noteId,
   isArchived,
 }: {
@@ -40,4 +40,4 @@ function SidebarRight({
   );
 }
 
-export default SidebarRight;
+export default NoteActionsPanel;

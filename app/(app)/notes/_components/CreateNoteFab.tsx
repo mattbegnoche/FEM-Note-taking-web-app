@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 export default function CreateNoteFab() {
   const searchParams = useSearchParams();
 
-  // Hide while a note is open or being drafted — the editor has its own
-  // save flow, and a floating create button next to it reads as noise.
   if (searchParams.get("note") || searchParams.get("new")) return null;
 
   return (

@@ -21,7 +21,7 @@ function SearchForm({ className }: { className?: string }) {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const next = e.target.value;
-    setValue(next); // ← your stray line lives here, and only here
+    setValue(next);
 
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
