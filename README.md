@@ -1,3 +1,4 @@
+![Note Taking Application](https://example.com)
 # Notes
 
 A full-stack note-taking app — Google sign-in, per-user data, real-time search, and a keyboard-navigable, responsive UI. Originally scoped from a [Frontend Mentor](https://www.frontendmentor.io/) challenge and extended into a complete backend as a portfolio project.
