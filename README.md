@@ -1,3 +1,5 @@
+![App Preview Dekstop](/public/app-preveiw-desktop.png)
+
 # Notes
 
 A full-stack note-taking app — Google sign-in, per-user data, real-time search, and a keyboard-navigable, responsive UI. Originally scoped from a [Frontend Mentor](https://www.frontendmentor.io/) challenge and extended into a complete backend as a portfolio project.
@@ -21,14 +23,14 @@ Notes lets a signed-in user create, edit, archive, tag, and search their own not
 
 ## Tech stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Framework | [Next.js 16](https://nextjs.org/) (App Router) | Server Components for reads, Server Actions for mutations — no separate API layer needed |
-| Auth | [Auth.js (NextAuth v5)](https://authjs.dev/) + Google provider | Database-backed sessions via the Prisma adapter, not JWT-only |
-| Database | [Neon](https://neon.tech/) (serverless Postgres) | Free-tier hosted Postgres with pooled connections suited to serverless functions |
-| ORM | [Prisma 7](https://www.prisma.io/) | Type-safe schema and queries; driver adapter (`@prisma/adapter-pg`) for the pooled connection |
-| Styling | Tailwind CSS + [Radix UI](https://www.radix-ui.com/) primitives | Accessible unstyled primitives, styled to the design system |
-| Deployment | [Vercel](https://vercel.com/) | Native Next.js hosting with per-request serverless functions |
+| Layer      | Choice                                                          | Why                                                                                           |
+| ---------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Framework  | [Next.js 16](https://nextjs.org/) (App Router)                  | Server Components for reads, Server Actions for mutations — no separate API layer needed      |
+| Auth       | [Auth.js (NextAuth v5)](https://authjs.dev/) + Google provider  | Database-backed sessions via the Prisma adapter, not JWT-only                                 |
+| Database   | [Neon](https://neon.tech/) (serverless Postgres)                | Free-tier hosted Postgres with pooled connections suited to serverless functions              |
+| ORM        | [Prisma 7](https://www.prisma.io/)                              | Type-safe schema and queries; driver adapter (`@prisma/adapter-pg`) for the pooled connection |
+| Styling    | Tailwind CSS + [Radix UI](https://www.radix-ui.com/) primitives | Accessible unstyled primitives, styled to the design system                                   |
+| Deployment | [Vercel](https://vercel.com/)                                   | Native Next.js hosting with per-request serverless functions                                  |
 
 ## Architecture notes
 
