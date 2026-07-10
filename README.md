@@ -1,9 +1,10 @@
-![App Preview Dekstop](/public/app-preveiw-desktop.png)
+![App Preview Dekstop](/github/assets/app-preveiw-desktop.png)
+
 # Notes
 
 A full-stack note-taking app — Google sign-in, per-user data, real-time search, and a keyboard-navigable, responsive UI. Originally scoped from a [Frontend Mentor](https://www.frontendmentor.io/) challenge and extended into a complete backend as a portfolio project.
 
-**Live app:** [add your Vercel URL here]
+**Live app:** [https://fem-note-taking-web-app.vercel.app/notes]
 
 ## Overview
 
